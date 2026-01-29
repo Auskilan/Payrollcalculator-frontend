@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './pages/auth/Login';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import SuperAdminSignup from './pages/auth/SuperAdminSignup';
+import ShopDetails from './pages/auth/ShopDetails';
 import DashboardLayout from './layout/DashboardLayout';
 import Dashboard from './pages/dashboard/Dashboard';
 import EmployeeList from './pages/employees/EmployeeList';
@@ -27,6 +28,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/signup" element={<SuperAdminSignup />} />
+        <Route path="/shop-details" element={<ShopDetails />} />
 
         <Route path="/" element={<DashboardLayout />}>
           <Route index element={<Navigate to="/dashboard" replace />} />

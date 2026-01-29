@@ -28,7 +28,16 @@ const Login = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      navigate('/dashboard');
+
+      // Check if shop details are setup (simulated check)
+      // In a real app, this would come from the backend user profile
+      const isShopSetup = localStorage.getItem('isShopSetupComplete');
+
+      if (isShopSetup && role === 'super_admin') {
+        navigate('/shop-details');
+      } else {
+        navigate('/dashboard');
+      }
     }, 1500);
   };
 
