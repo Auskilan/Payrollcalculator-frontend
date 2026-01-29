@@ -3,6 +3,121 @@ import { Eye, EyeOff, Gem, User, Mail, Lock, Building, Phone } from 'lucide-reac
 import { useNavigate } from 'react-router-dom';
 import Notification from '../../components/common/Notification';
 
+const InputField = ({
+    label,
+    name,
+    type = 'text',
+    placeholder,
+    icon: Icon,
+    showPasswordToggle = false,
+    isPassword = false,
+    value,
+    onChange,
+    error,
+    showPassword,
+    setShowPassword,
+    showConfirmPassword,
+    setShowConfirmPassword
+}) => {
+    const showPass = isPassword && (name === 'password' ? showPassword : showConfirmPassword);
+
+    return (
+        <div style={{ marginBottom: '1.25rem' }}>
+            <label style={{
+                display: 'block',
+                marginBottom: '0.5rem',
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                color: '#1E293B'
+            }}>
+                {label}
+            </label>
+            <div style={{ position: 'relative' }}>
+                {Icon && (
+                    <div style={{
+                        position: 'absolute',
+                        left: '1rem',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        color: '#94A3B8',
+                        pointerEvents: 'none'
+                    }}>
+                        <Icon size={18} />
+                    </div>
+                )}
+                <input
+                    type={showPasswordToggle ? (showPass ? 'text' : 'password') : type}
+                    name={name}
+                    placeholder={placeholder}
+                    value={value || ''}
+                    onChange={onChange}
+                    style={{
+                        width: '100%',
+                        padding: '0.75rem 1rem',
+                        paddingLeft: Icon ? '3rem' : '1rem',
+                        paddingRight: showPasswordToggle ? '3rem' : '1rem',
+                        borderRadius: '8px',
+                        border: error ? '1px solid #EF4444' : '1px solid #E2E8F0',
+                        background: '#FFFFFF',
+                        color: '#0F172A',
+                        fontSize: '0.95rem',
+                        fontFamily: 'var(--font-sans)',
+                        transition: 'all 0.2s',
+                        outline: 'none'
+                    }}
+                    onFocus={(e) => {
+                        if (!error) {
+                            e.target.style.borderColor = '#D4AF37';
+                            e.target.style.boxShadow = '0 0 0 3px rgba(212, 175, 55, 0.1)';
+                        }
+                    }}
+                    onBlur={(e) => {
+                        e.target.style.borderColor = error ? '#EF4444' : '#E2E8F0';
+                        e.target.style.boxShadow = 'none';
+                    }}
+                />
+                {showPasswordToggle && (
+                    <button
+                        type="button"
+                        onClick={() => {
+                            if (name === 'password') {
+                                setShowPassword(!showPassword);
+                            } else {
+                                setShowConfirmPassword(!showConfirmPassword);
+                            }
+                        }}
+                        style={{
+                            position: 'absolute',
+                            right: '1rem',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            background: 'none',
+                            border: 'none',
+                            color: '#94A3B8',
+                            cursor: 'pointer',
+                            padding: 0,
+                            display: 'flex',
+                            alignItems: 'center'
+                        }}
+                    >
+                        {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                )}
+            </div>
+            {error && (
+                <p style={{
+                    color: '#EF4444',
+                    fontSize: '0.75rem',
+                    marginTop: '0.25rem',
+                    marginBottom: 0
+                }}>
+                    {error}
+                </p>
+            )}
+        </div>
+    );
+};
+
 const SuperAdminSignup = () => {
     const navigate = useNavigate();
 
@@ -98,123 +213,15 @@ const SuperAdminSignup = () => {
 
             // Show success notification
             setNotification({
-                message: '🎉 Super Admin account created successfully! Redirecting to login...',
+                message: '🎉 Super Admin account created successfully! Redirecting to shop setup...',
                 type: 'success'
             });
 
-            // Redirect to login after 2 seconds
+            // Redirect to shop details after 2 seconds
             setTimeout(() => {
-                navigate('/login');
+                navigate('/shop-details');
             }, 2000);
         }, 1500);
-    };
-
-    const InputField = ({
-        label,
-        name,
-        type = 'text',
-        placeholder,
-        icon: Icon,
-        showPasswordToggle = false,
-        isPassword = false
-    }) => {
-        const showPass = isPassword && (name === 'password' ? showPassword : showConfirmPassword);
-
-        return (
-            <div style={{ marginBottom: '1.25rem' }}>
-                <label style={{
-                    display: 'block',
-                    marginBottom: '0.5rem',
-                    fontSize: '0.875rem',
-                    fontWeight: '600',
-                    color: '#1E293B'
-                }}>
-                    {label}
-                </label>
-                <div style={{ position: 'relative' }}>
-                    {Icon && (
-                        <div style={{
-                            position: 'absolute',
-                            left: '1rem',
-                            top: '50%',
-                            transform: 'translateY(-50%)',
-                            color: '#94A3B8',
-                            pointerEvents: 'none'
-                        }}>
-                            <Icon size={18} />
-                        </div>
-                    )}
-                    <input
-                        type={showPasswordToggle ? (showPass ? 'text' : 'password') : type}
-                        name={name}
-                        placeholder={placeholder}
-                        value={formData[name]}
-                        onChange={handleInputChange}
-                        style={{
-                            width: '100%',
-                            padding: '0.75rem 1rem',
-                            paddingLeft: Icon ? '3rem' : '1rem',
-                            paddingRight: showPasswordToggle ? '3rem' : '1rem',
-                            borderRadius: '8px',
-                            border: errors[name] ? '1px solid #EF4444' : '1px solid #E2E8F0',
-                            background: '#FFFFFF',
-                            color: '#0F172A',
-                            fontSize: '0.95rem',
-                            fontFamily: 'var(--font-sans)',
-                            transition: 'all 0.2s',
-                            outline: 'none'
-                        }}
-                        onFocus={(e) => {
-                            if (!errors[name]) {
-                                e.target.style.borderColor = '#D4AF37';
-                                e.target.style.boxShadow = '0 0 0 3px rgba(212, 175, 55, 0.1)';
-                            }
-                        }}
-                        onBlur={(e) => {
-                            e.target.style.borderColor = errors[name] ? '#EF4444' : '#E2E8F0';
-                            e.target.style.boxShadow = 'none';
-                        }}
-                    />
-                    {showPasswordToggle && (
-                        <button
-                            type="button"
-                            onClick={() => {
-                                if (name === 'password') {
-                                    setShowPassword(!showPassword);
-                                } else {
-                                    setShowConfirmPassword(!showConfirmPassword);
-                                }
-                            }}
-                            style={{
-                                position: 'absolute',
-                                right: '1rem',
-                                top: '50%',
-                                transform: 'translateY(-50%)',
-                                background: 'none',
-                                border: 'none',
-                                color: '#94A3B8',
-                                cursor: 'pointer',
-                                padding: 0,
-                                display: 'flex',
-                                alignItems: 'center'
-                            }}
-                        >
-                            {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
-                        </button>
-                    )}
-                </div>
-                {errors[name] && (
-                    <p style={{
-                        color: '#EF4444',
-                        fontSize: '0.75rem',
-                        marginTop: '0.25rem',
-                        marginBottom: 0
-                    }}>
-                        {errors[name]}
-                    </p>
-                )}
-            </div>
-        );
     };
 
     return (
@@ -371,6 +378,9 @@ const SuperAdminSignup = () => {
                                     type="text"
                                     placeholder="Enter your full name"
                                     icon={User}
+                                    value={formData.fullName}
+                                    onChange={handleInputChange}
+                                    error={errors.fullName}
                                 />
 
 
@@ -380,6 +390,9 @@ const SuperAdminSignup = () => {
                                     type="email"
                                     placeholder="your@email.com"
                                     icon={Mail}
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    error={errors.email}
                                 />
 
                                 <InputField
@@ -388,6 +401,9 @@ const SuperAdminSignup = () => {
                                     type="tel"
                                     placeholder="10-digit number"
                                     icon={Phone}
+                                    value={formData.phone}
+                                    onChange={handleInputChange}
+                                    error={errors.phone}
                                 />
 
                                 <InputField
@@ -396,6 +412,9 @@ const SuperAdminSignup = () => {
                                     type="text"
                                     placeholder="Your company name"
                                     icon={Building}
+                                    value={formData.companyName}
+                                    onChange={handleInputChange}
+                                    error={errors.companyName}
                                 />
 
                                 <InputField
@@ -405,6 +424,11 @@ const SuperAdminSignup = () => {
                                     icon={Lock}
                                     showPasswordToggle={true}
                                     isPassword={true}
+                                    value={formData.password}
+                                    onChange={handleInputChange}
+                                    error={errors.password}
+                                    showPassword={showPassword}
+                                    setShowPassword={setShowPassword}
                                 />
 
                                 <InputField
@@ -414,6 +438,11 @@ const SuperAdminSignup = () => {
                                     icon={Lock}
                                     showPasswordToggle={true}
                                     isPassword={true}
+                                    value={formData.confirmPassword}
+                                    onChange={handleInputChange}
+                                    error={errors.confirmPassword}
+                                    showConfirmPassword={showConfirmPassword}
+                                    setShowConfirmPassword={setShowConfirmPassword}
                                 />
                             </div>
                         </div>
