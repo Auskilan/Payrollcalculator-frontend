@@ -7,7 +7,7 @@ export const useOrganization = () => {
     if (!context) {
         throw new Error('useOrganization must be used within an OrganizationProvider');
     }
-    return context;
+    return context;  
 };
 
 export const OrganizationProvider = ({ children }) => {
