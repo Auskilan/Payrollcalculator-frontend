@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     X,
     MapPin,
@@ -15,7 +15,7 @@ import {
     Globe
 } from 'lucide-react';
 
-const EditLocationModal = ({ location, onClose, onSave }) => {
+const AddLocationModal = ({ onClose, onSave }) => {
     const [activeTab, setActiveTab] = useState('branch');
     const [formData, setFormData] = useState({
         name: '',
@@ -31,24 +31,6 @@ const EditLocationModal = ({ location, onClose, onSave }) => {
         website: ''
     });
 
-    useEffect(() => {
-        if (location) {
-            setFormData({
-                name: location.name || '',
-                city: location.city || '',
-                state: location.state || '',
-                address: location.address || '',
-                status: location.status || 'Active',
-                deviceCount: location.deviceCount || 0,
-                isMain: location.isMain || false,
-                biometricEnabled: location.biometricEnabled || false,
-                phone: location.phone || '',
-                email: location.email || '',
-                website: location.website || ''
-            });
-        }
-    }, [location]);
-
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData(prev => ({
@@ -63,7 +45,7 @@ const EditLocationModal = ({ location, onClose, onSave }) => {
             return;
         }
 
-        onSave(location?.id, formData);
+        onSave(null, formData);
     };
 
     return (
@@ -100,8 +82,8 @@ const EditLocationModal = ({ location, onClose, onSave }) => {
                     background: 'var(--color-surface)'
                 }}>
                     <div>
-                        <h2 style={{ fontSize: '1.25rem', fontWeight: '700' }}>Edit Location</h2>
-                        <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>Update the details for this branch.</p>
+                        <h2 style={{ fontSize: '1.25rem', fontWeight: '700' }}>Add New Location</h2>
+                        <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>Enter the details for the new branch.</p>
                     </div>
                     <button
                         onClick={onClose}
@@ -385,7 +367,7 @@ const EditLocationModal = ({ location, onClose, onSave }) => {
                         onClick={handleSave}
                     >
                         <Save size={18} />
-                        Update Location
+                        Save Location
                     </button>
                 </div>
             </div>
@@ -393,4 +375,4 @@ const EditLocationModal = ({ location, onClose, onSave }) => {
     );
 };
 
-export default EditLocationModal;
+export default AddLocationModal;
