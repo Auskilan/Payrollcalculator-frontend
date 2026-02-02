@@ -8,7 +8,7 @@ const Dashboard = () => {
             {/* Header Section */}
             <div style={{ marginBottom: '2rem' }}>
                 <h1 style={{
-                    fontSize: '3rem',
+                    fontSize: '2rem',
                     fontWeight: '700',
                     marginBottom: '0.5rem',
                     background: 'linear-gradient(135deg, var(--color-text-main), var(--color-text-muted))',
