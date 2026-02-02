@@ -1,5 +1,5 @@
-import React from 'react';
-import { Clock, Calendar, Banknote, MapPin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Clock, Calendar, Banknote, MapPin, AlertCircle } from 'lucide-react';
 
 const StatCard = ({ icon: Icon, label, value, subtext, color }) => (
     <div style={{
@@ -26,13 +26,35 @@ const StatCard = ({ icon: Icon, label, value, subtext, color }) => (
         </div>
         <div>
             <p style={{ color: '#64748B', fontSize: '0.875rem', fontWeight: '500', marginBottom: '0.25rem' }}>{label}</p>
-            <h3 style={{ color: '#1E293B', fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.25rem' }}>{value}</h3>
+            <h3 style={{ color: '#1E293B', fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.25rem' }}>{value}</h3>
             <p style={{ color: '#94A3B8', fontSize: '0.75rem' }}>{subtext}</p>
         </div>
     </div>
 );
 
 const EmployeeDashboard = () => {
+    const [latestLeave, setLatestLeave] = useState(null);
+    const [leaveBalance, setLeaveBalance] = useState(12);
+
+    useEffect(() => {
+        const leaves = JSON.parse(localStorage.getItem('leaveRequests') || '[]');
+        // In a real app we'd filter by employee ID
+        if (leaves.length > 0) {
+            setLatestLeave(leaves[0]);
+        }
+    }, []);
+
+    const getLeaveStatusDisplay = () => {
+        if (!latestLeave) return { value: 'No Requests', sub: 'Apply for leave below', color: '#94A3B8' };
+
+        const status = latestLeave.status;
+        if (status === 'Approved') return { value: 'Approved', sub: `Next: ${latestLeave.fromDate}`, color: '#10B981' };
+        if (status === 'Rejected') return { value: 'Rejected', sub: 'Check reasons in mail', color: '#EF4444' };
+        return { value: 'Pending', sub: 'Awaiting admin review', color: '#F59E0B' };
+    };
+
+    const leaveStatus = getLeaveStatusDisplay();
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <div>
@@ -44,7 +66,7 @@ const EmployeeDashboard = () => {
 
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
                 gap: '1.5rem'
             }}>
                 <StatCard
@@ -57,22 +79,29 @@ const EmployeeDashboard = () => {
                 <StatCard
                     icon={Calendar}
                     label="Leave Balance"
-                    value="12 Days"
-                    subtext="Available for this year"
+                    value={`${leaveBalance} Days`}
+                    subtext="Available for 2026"
                     color="#0EA5E9"
+                />
+                <StatCard
+                    icon={AlertCircle}
+                    label="My Leave Status"
+                    value={leaveStatus.value}
+                    subtext={leaveStatus.sub}
+                    color={leaveStatus.color}
                 />
                 <StatCard
                     icon={Banknote}
                     label="Last Salary"
                     value="₹45,000"
-                    subtext="Paid on Jan 31, 2024"
+                    subtext="Paid on Jan 31, 2026"
                     color="#10B981"
                 />
             </div>
 
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: '2fr 1fr',
+                gridTemplateColumns: '1.8fr 1fr',
                 gap: '1.5rem'
             }}>
                 {/* Recent Attendance */}
@@ -88,9 +117,9 @@ const EmployeeDashboard = () => {
                     </h3>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         {[
-                            { date: 'Feb 01, 2024', in: '09:00 AM', out: '06:05 PM', status: 'On Time' },
-                            { date: 'Jan 31, 2024', in: '09:12 AM', out: '06:10 PM', status: 'On Time' },
-                            { date: 'Jan 30, 2024', in: '09:30 AM', out: '06:00 PM', status: 'Late' },
+                            { date: 'Feb 02, 2026', in: '09:15 AM', out: '--:--', status: 'On Time' },
+                            { date: 'Feb 01, 2026', in: '09:00 AM', out: '06:05 PM', status: 'On Time' },
+                            { date: 'Jan 31, 2026', in: '09:12 AM', out: '06:10 PM', status: 'On Time' },
                         ].map((item, i) => (
                             <div key={i} style={{
                                 display: 'flex',
