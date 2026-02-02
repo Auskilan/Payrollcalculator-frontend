@@ -18,69 +18,67 @@ import ApplyLeaveModal from './ApplyLeaveModal';
 const LeaveDashboard = () => {
     const [activeTab, setActiveTab] = useState('All');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [leaveRequests, setLeaveRequests] = useState([]);
 
-    // Mock Data
-    const [leaveRequests, setLeaveRequests] = useState([
-        {
-            id: 'L001',
-            employeeId: 'EMP001',
-            name: 'Priya Sharma',
-            role: 'Sales Executive',
-            type: 'Sick Leave',
-            fromDate: '2026-01-22',
-            toDate: '2026-01-23',
-            days: 2,
-            reason: 'High fever and viral infection',
-            status: 'Pending',
-            appliedOn: '2026-01-20'
-        },
-        {
-            id: 'L002',
-            employeeId: 'EMP002',
-            name: 'Rahul Verma',
-            role: 'Goldsmith',
-            type: 'Casual Leave',
-            fromDate: '2026-02-10',
-            toDate: '2026-02-12',
-            days: 3,
-            reason: 'Family wedding in hometown',
-            status: 'Approved',
-            appliedOn: '2026-01-15'
-        },
-        {
-            id: 'L003',
-            employeeId: 'EMP005',
-            name: 'Vikram Singh',
-            role: 'Senior Artisan',
-            type: 'Emergency Leave',
-            fromDate: '2026-01-21',
-            toDate: '2026-01-21',
-            days: 1,
-            reason: 'Medical emergency',
-            status: 'Approved',
-            appliedOn: '2026-01-20'
-        },
-        {
-            id: 'L004',
-            employeeId: 'EMP003',
-            name: 'Anjali Gupta',
-            role: 'Store Manager',
-            type: 'Sick Leave',
-            fromDate: '2026-01-18',
-            toDate: '2026-01-18',
-            days: 1,
-            reason: 'Migraine',
-            status: 'Rejected',
-            appliedOn: '2026-01-18'
-        },
-    ]);
+    // Load from localStorage
+    useEffect(() => {
+        const savedLeaves = localStorage.getItem('leaveRequests');
+        if (savedLeaves) {
+            setLeaveRequests(JSON.parse(savedLeaves));
+        } else {
+            // Initial mock data if empty
+            const initialMock = [
+                {
+                    id: 'L001',
+                    employeeId: 'EMP001',
+                    name: 'Priya Sharma',
+                    role: 'Sales Executive',
+                    type: 'Sick Leave',
+                    fromDate: '2026-01-22',
+                    toDate: '2026-01-23',
+                    days: 2,
+                    reason: 'High fever and viral infection',
+                    status: 'Pending',
+                    appliedOn: '2026-01-20'
+                },
+                {
+                    id: 'L002',
+                    employeeId: 'EMP002',
+                    name: 'Rahul Verma',
+                    role: 'Goldsmith',
+                    type: 'Casual Leave',
+                    fromDate: '2026-02-10',
+                    toDate: '2026-02-12',
+                    days: 3,
+                    reason: 'Family wedding in hometown',
+                    status: 'Approved',
+                    appliedOn: '2026-01-15'
+                },
+                {
+                    id: 'L004',
+                    employeeId: 'EMP003',
+                    name: 'Anjali Gupta',
+                    role: 'Store Manager',
+                    type: 'Sick Leave',
+                    fromDate: '2026-01-18',
+                    toDate: '2026-01-18',
+                    days: 1,
+                    reason: 'Migraine',
+                    status: 'Rejected',
+                    appliedOn: '2026-01-18'
+                }
+            ];
+            localStorage.setItem('leaveRequests', JSON.stringify(initialMock));
+            setLeaveRequests(initialMock);
+        }
+    }, []);
 
     const stats = {
         pending: leaveRequests.filter(r => r.status === 'Pending').length,
         approved: leaveRequests.filter(r => r.status === 'Approved').length,
         rejected: leaveRequests.filter(r => r.status === 'Rejected').length,
         today: leaveRequests.filter(r => {
-            const today = '2026-01-21';
+            const today = new Date().toISOString().split('T')[0];
             return r.status === 'Approved' && currentIsBetween(today, r.fromDate, r.toDate);
         }).length
     };
@@ -88,6 +86,21 @@ const LeaveDashboard = () => {
     function currentIsBetween(target, start, end) {
         return target >= start && target <= end;
     }
+
+    const handleAction = (id, newStatus) => {
+        const updated = leaveRequests.map(req =>
+            req.id === id ? { ...req, status: newStatus } : req
+        );
+        localStorage.setItem('leaveRequests', JSON.stringify(updated));
+        setLeaveRequests(updated);
+    };
+
+    const handleApplyLeave = (newLeave) => {
+        const updated = [newLeave, ...leaveRequests];
+        localStorage.setItem('leaveRequests', JSON.stringify(updated));
+        setLeaveRequests(updated);
+        setIsModalOpen(false);
+    };
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -117,17 +130,6 @@ const LeaveDashboard = () => {
             alignItems: 'center',
             gap: '0.25rem'
         };
-    };
-
-    const handleAction = (id, newStatus) => {
-        setLeaveRequests(prev => prev.map(req =>
-            req.id === id ? { ...req, status: newStatus } : req
-        ));
-    };
-
-    const handleApplyLeave = (newLeave) => {
-        setLeaveRequests([newLeave, ...leaveRequests]);
-        setIsModalOpen(false);
     };
 
     const filteredRequests = activeTab === 'All'
