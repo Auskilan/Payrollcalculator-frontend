@@ -418,6 +418,17 @@ const SuperAdminSignup = () => {
                                 />
 
                                 <InputField
+                                    label="Username"
+                                    name="username"
+                                    type="text"
+                                    placeholder="Create a username"
+                                    icon={User}
+                                    value={formData.username}
+                                    onChange={handleInputChange}
+                                    error={errors.username}
+                                />
+
+                                <InputField
                                     label="Password"
                                     name="password"
                                     placeholder="Enter password (min. 6 characters)"

@@ -29,12 +29,14 @@ const Login = () => {
     setTimeout(() => {
       setLoading(false);
 
-      // Check if shop details are setup (simulated check)
-      // In a real app, this would come from the backend user profile
-      const isShopSetup = localStorage.getItem('isShopSetupComplete');
-
-      if (isShopSetup && role === 'super_admin') {
-        navigate('/shop-details');
+      // Redirect based on setup completion
+      if (role === 'super_admin') {
+        const isShopSetup = localStorage.getItem('isShopSetupComplete');
+        if (!isShopSetup) {
+          navigate('/shop-details');
+        } else {
+          navigate('/dashboard');
+        }
       } else {
         navigate('/dashboard');
       }
