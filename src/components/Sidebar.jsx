@@ -17,12 +17,15 @@ import {
 const Sidebar = ({ isOpen, toggleSidebar }) => {
     const navigate = useNavigate();
 
+    // In a real app, this would come from an auth context
+    const role = localStorage.getItem('userRole') || 'super_admin';
+
     const handleLogout = () => {
-        // Clear any auth tokens (optional for now)
-        // Redirect to login
+        localStorage.removeItem('userRole');
         navigate('/login');
     };
-    const menuItems = [
+
+    const adminMenuItems = [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
         { icon: Building2, label: 'Organization', path: '/organization' },
         { icon: Users, label: 'Employees', path: '/employees' },
@@ -31,6 +34,15 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         { icon: Banknote, label: 'Payroll', path: '/payroll' },
         { icon: FileBarChart, label: 'Reports', path: '/reports' },
     ];
+
+    const employeeMenuItems = [
+        { icon: LayoutDashboard, label: 'My Dashboard', path: '/employee/dashboard' },
+        { icon: Clock, label: 'My Attendance', path: '/employee/attendance' },
+        { icon: Calendar, label: 'Leaves', path: '/employee/leaves' },
+        { icon: Banknote, label: 'My Payslips', path: '/employee/payslips' },
+    ];
+
+    const menuItems = role === 'employee' ? employeeMenuItems : adminMenuItems;
 
     return (
         <aside style={{

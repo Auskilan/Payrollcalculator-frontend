@@ -154,12 +154,12 @@ const ShopDetails = () => {
             localStorage.setItem('isShopSetupComplete', 'true');
 
             setNotification({
-                message: '🎉 Shop details saved successfully! Setup complete.',
+                message: '🎉 Shop details saved successfully! Setup complete. Please login to your account.',
                 type: 'success'
             });
 
             setTimeout(() => {
-                navigate('/dashboard');
+                navigate('/login');
             }, 2000);
         }, 1500);
     };

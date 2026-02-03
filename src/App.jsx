@@ -13,6 +13,12 @@ import PayrollDashboard from './pages/payroll/PayrollDashboard';
 import Organization from './pages/organization/Organization';
 import ReportsDashboard from './pages/reports/ReportsDashboard';
 
+import EmployeeSignup from './pages/auth/EmployeeSignup';
+import EmployeeDashboard from './pages/employee/Dashboard';
+import EmployeeAttendance from './pages/employee/Attendance';
+import EmployeeLeaves from './pages/employee/Leaves';
+import EmployeePayslips from './pages/employee/Payslips';
+
 // Placeholder components for other routes
 const Placeholder = ({ title }) => (
   <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--color-text-muted)' }}>
@@ -28,6 +34,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/signup" element={<SuperAdminSignup />} />
+        <Route path="/employee-signup" element={<EmployeeSignup />} />
         <Route path="/shop-details" element={<ShopDetails />} />
 
         <Route path="/" element={<DashboardLayout />}>
@@ -39,6 +46,12 @@ function App() {
           <Route path="payroll" element={<PayrollDashboard />} />
           <Route path="organization" element={<Organization />} />
           <Route path="reports" element={<ReportsDashboard />} />
+
+          {/* Employee Routes */}
+          <Route path="employee/dashboard" element={<EmployeeDashboard />} />
+          <Route path="employee/attendance" element={<EmployeeAttendance />} />
+          <Route path="employee/leaves" element={<EmployeeLeaves />} />
+          <Route path="employee/payslips" element={<EmployeePayslips />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/login" replace />} />

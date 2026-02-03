@@ -10,6 +10,7 @@ const ProfileDropdown = () => {
     const navigate = useNavigate();
     const { organization, setOrganization } = useOrganization();
 
+<<<<<<< HEAD
     const userRole = localStorage.getItem('userRole') || 'employee';
     const userName = localStorage.getItem('userName') || (userRole === 'super_admin' ? 'Sivam Admin' : 'Alex Johnson');
     const userId = localStorage.getItem('userId') || 'ST-1001';
@@ -18,6 +19,18 @@ const ProfileDropdown = () => {
     // Form state for shop/profile details
     const [formData, setFormData] = useState({
         shopName: organization?.name || 'Sivam Gold & Silver',
+=======
+    // Retrieve user data from localStorage or use defaults
+    const userRole = localStorage.getItem('userRole') || 'employee';
+    const userName = localStorage.getItem('userName') || (userRole === 'super_admin' ? 'Sivam Admin' : 'Alex Johnson');
+    const userId = localStorage.getItem('userId') || 'ST-1001';
+    const userEmail = localStorage.getItem('userEmail') || (userRole === 'super_admin' ? 'admin@sivamgold.com' : 'alex@sivamgold.com');
+    const shopName = localStorage.getItem('shopName') || organization?.name || 'Sivam Gold & Silver';
+
+    // Form state for shop/profile details
+    const [formData, setFormData] = useState({
+        shopName: shopName,
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
         address: '123 Gold St, T.Nagar',
         city: 'Chennai',
         state: 'Tamil Nadu',
@@ -45,7 +58,10 @@ const ProfileDropdown = () => {
         e.preventDefault();
         if (userRole === 'super_admin') {
             setOrganization(prev => ({ ...prev, name: formData.shopName }));
+<<<<<<< HEAD
             // Also store in localStorage to persist mock
+=======
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
             localStorage.setItem('shopName', formData.shopName);
         }
         setShowEditModal(false);
@@ -59,7 +75,11 @@ const ProfileDropdown = () => {
 
     return (
         <div style={{ position: 'relative' }} ref={dropdownRef}>
+<<<<<<< HEAD
             {/* Profile CTA Icon (Trigger) */}
+=======
+            {/* Profile CTA Icon Trigger */}
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
             <div
                 id="profile-cta-icon"
                 onClick={() => setIsOpen(!isOpen)}
@@ -98,7 +118,11 @@ const ProfileDropdown = () => {
                     animation: 'dropdownAppear 0.3s ease-out',
                     transformOrigin: 'top right'
                 }}>
+<<<<<<< HEAD
                     {/* Header with Background Gradient */}
+=======
+                    {/* Header */}
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
                     <div style={{
                         padding: '1.75rem 1.5rem',
                         background: 'linear-gradient(135deg, #FFF9EB 0%, #FFFFFF 100%)',
@@ -121,6 +145,7 @@ const ProfileDropdown = () => {
                             border: '1px solid var(--color-primary-light)'
                         }}>
                             <UserCircle size={42} strokeWidth={1.5} />
+<<<<<<< HEAD
                             {userRole === 'employee' && (
                                 <div style={{
                                     position: 'absolute',
@@ -140,6 +165,25 @@ const ProfileDropdown = () => {
                                     <Camera size={12} />
                                 </div>
                             )}
+=======
+                            <div style={{
+                                position: 'absolute',
+                                bottom: '-5px',
+                                right: '-5px',
+                                width: '24px',
+                                height: '24px',
+                                borderRadius: '50%',
+                                background: 'var(--color-primary)',
+                                border: '2px solid white',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: 'white',
+                                boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+                            }}>
+                                <Camera size={12} />
+                            </div>
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
                         </div>
                         <div style={{ flex: 1 }}>
                             <h4 style={{ margin: 0, color: 'var(--color-text-main)', fontSize: '1.125rem', fontWeight: '700', letterSpacing: '-0.01em' }}>{userName}</h4>
@@ -151,10 +195,16 @@ const ProfileDropdown = () => {
                                     borderRadius: '6px',
                                     fontSize: '0.65rem',
                                     fontWeight: '800',
+<<<<<<< HEAD
                                     textTransform: 'uppercase',
                                     letterSpacing: '0.05em'
                                 }}>
                                     {userRole === 'super_admin' ? 'Super Admin' : 'Staff'}
+=======
+                                    textTransform: 'uppercase'
+                                }}>
+                                    {userRole === 'super_admin' ? 'Admin' : 'Staff'}
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
                                 </span>
                                 {userRole === 'employee' && (
                                     <span style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem', fontWeight: '500' }}>#{userId}</span>
@@ -188,7 +238,11 @@ const ProfileDropdown = () => {
                                             <MapPin size={18} />
                                         </div>
                                         <div>
+<<<<<<< HEAD
                                             <p style={{ margin: 0, fontSize: '0.7rem', color: 'var(--color-text-muted)', fontWeight: '600', textTransform: 'uppercase' }}>Registered Layout</p>
+=======
+                                            <p style={{ margin: 0, fontSize: '0.7rem', color: 'var(--color-text-muted)', fontWeight: '600', textTransform: 'uppercase' }}>Location</p>
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
                                             <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--color-text-main)', lineHeight: '1.4', fontWeight: '500' }}>
                                                 {formData.city}, {formData.state}
                                             </p>
@@ -202,8 +256,13 @@ const ProfileDropdown = () => {
                                             <Shield size={18} />
                                         </div>
                                         <div>
+<<<<<<< HEAD
                                             <p style={{ margin: 0, fontSize: '0.7rem', color: 'var(--color-text-muted)', fontWeight: '600', textTransform: 'uppercase' }}>Access Level</p>
                                             <p style={{ margin: 0, fontSize: '0.9rem', fontWeight: '700', color: 'var(--color-text-main)' }}>Full Payroll Info</p>
+=======
+                                            <p style={{ margin: 0, fontSize: '0.7rem', color: 'var(--color-text-muted)', fontWeight: '600', textTransform: 'uppercase' }}>Role</p>
+                                            <p style={{ margin: 0, fontSize: '0.9rem', fontWeight: '700', color: 'var(--color-text-main)' }}>Staff Member</p>
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
                                         </div>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -211,7 +270,11 @@ const ProfileDropdown = () => {
                                             <Mail size={18} />
                                         </div>
                                         <div>
+<<<<<<< HEAD
                                             <p style={{ margin: 0, fontSize: '0.7rem', color: 'var(--color-text-muted)', fontWeight: '600', textTransform: 'uppercase' }}>Professional Email</p>
+=======
+                                            <p style={{ margin: 0, fontSize: '0.7rem', color: 'var(--color-text-muted)', fontWeight: '600', textTransform: 'uppercase' }}>Email</p>
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
                                             <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--color-text-main)', fontWeight: '500' }}>{formData.email}</p>
                                         </div>
                                     </div>
@@ -260,7 +323,11 @@ const ProfileDropdown = () => {
                 </div>
             )}
 
+<<<<<<< HEAD
             {/* Premium Full-Screen Modal for Editing */}
+=======
+            {/* Modal for Editing */}
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
             {showEditModal && (
                 <div style={{
                     position: 'fixed',
@@ -295,7 +362,11 @@ const ProfileDropdown = () => {
                                     {userRole === 'super_admin' ? 'Update Shop Registry' : 'My Professional Profile'}
                                 </h3>
                                 <p style={{ margin: '6px 0 0', fontSize: '0.95rem', color: 'var(--color-text-muted)' }}>
+<<<<<<< HEAD
                                     {userRole === 'super_admin' ? 'Modifying identity for Sivam Gold & Silver' : 'Manage your contact information and photo'}
+=======
+                                    {userRole === 'super_admin' ? 'Modify store identity and contact information' : 'Update your contact information and profile picture'}
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
                                 </p>
                             </div>
                             <button
@@ -310,17 +381,23 @@ const ProfileDropdown = () => {
                                     color: 'var(--color-text-muted)',
                                     display: 'flex',
                                     alignItems: 'center',
+<<<<<<< HEAD
                                     justifyContent: 'center',
                                     transition: 'all 0.2s'
                                 }}
                                 onMouseEnter={(e) => { e.target.style.background = '#E2E8F0'; e.target.style.color = '#0F172A'; }}
                                 onMouseLeave={(e) => { e.target.style.background = '#F1F5F9'; e.target.style.color = '#94A3B8'; }}
+=======
+                                    justifyContent: 'center'
+                                }}
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
                             >
                                 <X size={20} />
                             </button>
                         </div>
 
                         <form onSubmit={handleUpdate} style={{ padding: '2.5rem' }}>
+<<<<<<< HEAD
                             <div style={{ maxHeight: '65vh', overflowY: 'auto', paddingRight: '0.75rem' }} className="custom-scrollbar">
                                 {userRole === 'super_admin' ? (
                                     <>
@@ -333,6 +410,20 @@ const ProfileDropdown = () => {
                                         </div>
                                         <div style={{ marginBottom: '1.75rem' }}>
                                             <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '700', marginBottom: '0.75rem', color: '#334155', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Address Details</label>
+=======
+                            <div style={{ maxHeight: '65vh', overflowY: 'auto' }}>
+                                {userRole === 'super_admin' ? (
+                                    <>
+                                        <div style={{ marginBottom: '1.75rem' }}>
+                                            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '700', marginBottom: '0.75rem', color: '#334155', textTransform: 'uppercase' }}>Shop Name</label>
+                                            <div style={{ position: 'relative' }}>
+                                                <Building size={20} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
+                                                <input name="shopName" value={formData.shopName} onChange={handleInputChange} className="stitch-input" style={{ paddingLeft: '3rem', height: '52px' }} />
+                                            </div>
+                                        </div>
+                                        <div style={{ marginBottom: '1.75rem' }}>
+                                            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '700', marginBottom: '0.75rem', color: '#334155', textTransform: 'uppercase' }}>Address</label>
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
                                             <div style={{ position: 'relative' }}>
                                                 <MapPin size={20} style={{ position: 'absolute', left: '14px', top: '18px', color: '#94A3B8' }} />
                                                 <textarea name="address" value={formData.address} onChange={handleInputChange} className="stitch-input" style={{ paddingLeft: '3rem', minHeight: '100px', paddingTop: '15px' }} />
@@ -354,7 +445,11 @@ const ProfileDropdown = () => {
                                                 <input name="pincode" value={formData.pincode} onChange={handleInputChange} className="stitch-input" style={{ height: '52px' }} />
                                             </div>
                                             <div>
+<<<<<<< HEAD
                                                 <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '700', marginBottom: '0.75rem', color: '#334155', textTransform: 'uppercase' }}>Contact Number</label>
+=======
+                                                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '700', marginBottom: '0.75rem', color: '#334155', textTransform: 'uppercase' }}>Phone</label>
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
                                                 <div style={{ position: 'relative' }}>
                                                     <Phone size={20} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
                                                     <input name="phone" value={formData.phone} onChange={handleInputChange} className="stitch-input" style={{ paddingLeft: '3rem', height: '52px' }} />
@@ -376,10 +471,16 @@ const ProfileDropdown = () => {
                                                 justifyContent: 'center',
                                                 border: '3px dashed #E2E8F0',
                                                 cursor: 'pointer',
+<<<<<<< HEAD
                                                 position: 'relative',
                                                 transition: 'all 0.3s'
                                             }}
                                                 className="upload-box-large"
+=======
+                                                position: 'relative'
+                                            }}
+                                                className="photo-upload"
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
                                             >
                                                 <div style={{ textAlign: 'center' }}>
                                                     <Camera size={36} color="var(--color-primary)" />
@@ -387,10 +488,14 @@ const ProfileDropdown = () => {
                                                 </div>
                                                 <input type="file" style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer' }} />
                                             </div>
+<<<<<<< HEAD
                                             <h4 style={{ margin: 0, fontSize: '1.125rem', fontWeight: '800' }}>{userName}</h4>
                                             <p style={{ margin: '4px 0 0', fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>Staff ID: {userId}</p>
                                         </div>
 
+=======
+                                        </div>
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
                                         <div style={{ marginBottom: '1.75rem' }}>
                                             <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '700', marginBottom: '0.75rem', color: '#334155', textTransform: 'uppercase' }}>Email Address</label>
                                             <div style={{ position: 'relative' }}>
@@ -409,6 +514,7 @@ const ProfileDropdown = () => {
                                 )}
                             </div>
 
+<<<<<<< HEAD
                             <div style={{ display: 'flex', gap: '1.25rem', marginTop: '1.5rem' }}>
                                 <button
                                     type="button"
@@ -425,6 +531,11 @@ const ProfileDropdown = () => {
                                 >
                                     Save Changes
                                 </button>
+=======
+                            <div style={{ display: 'flex', gap: '1.25rem', marginTop: '2.5rem' }}>
+                                <button type="button" onClick={() => setShowEditModal(false)} className="stitch-btn" style={{ flex: 1, height: '52px', background: '#F1F5F9', color: '#475569' }}>Cancel</button>
+                                <button type="submit" className="stitch-btn stitch-btn-primary" style={{ flex: 1, height: '52px' }}>Save Changes</button>
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
                             </div>
                         </form>
                     </div>
@@ -440,6 +551,7 @@ const ProfileDropdown = () => {
                     from { opacity: 0; transform: scale(0.9) translateY(20px); }
                     to { opacity: 1; transform: scale(1) translateY(0); }
                 }
+<<<<<<< HEAD
                 .upload-box-large:hover {
                     background: var(--color-primary-bg) !important;
                     border-color: var(--color-primary) !important;
@@ -458,6 +570,15 @@ const ProfileDropdown = () => {
                 #profile-cta-icon:hover {
                     box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
                 }
+=======
+                #profile-cta-icon:hover {
+                    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+                }
+                .photo-upload:hover {
+                    border-color: var(--color-primary);
+                    background: var(--color-primary-bg);
+                }
+>>>>>>> 2924e6203d58d87fdd053b59be67fc3ce9bb4b08
             `}</style>
         </div>
     );

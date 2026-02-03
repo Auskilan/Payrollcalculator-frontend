@@ -77,7 +77,7 @@ const LeaveDashboard = () => {
         approved: leaveRequests.filter(r => r.status === 'Approved').length,
         rejected: leaveRequests.filter(r => r.status === 'Rejected').length,
         today: leaveRequests.filter(r => {
-            const today = '2026-01-21';
+            const today = new Date().toISOString().split('T')[0];
             return r.status === 'Approved' && currentIsBetween(today, r.fromDate, r.toDate);
         }).length
     };
@@ -85,6 +85,21 @@ const LeaveDashboard = () => {
     function currentIsBetween(target, start, end) {
         return target >= start && target <= end;
     }
+
+    const handleAction = (id, newStatus) => {
+        const updated = leaveRequests.map(req =>
+            req.id === id ? { ...req, status: newStatus } : req
+        );
+        localStorage.setItem('leaveRequests', JSON.stringify(updated));
+        setLeaveRequests(updated);
+    };
+
+    const handleApplyLeave = (newLeave) => {
+        const updated = [newLeave, ...leaveRequests];
+        localStorage.setItem('leaveRequests', JSON.stringify(updated));
+        setLeaveRequests(updated);
+        setIsModalOpen(false);
+    };
 
     const getStatusColor = (status) => {
         switch (status) {

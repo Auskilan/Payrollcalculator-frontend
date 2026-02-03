@@ -477,6 +477,29 @@ const Login = () => {
               Create Super Admin Account
             </a>
           </p>
+          <p style={{
+            textAlign: 'center',
+            marginTop: '0.5rem',
+            color: '#64748B',
+            fontSize: '0.875rem'
+          }}>
+            Are you an employee?{' '}
+            <a
+              href="/employee-signup"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate('/employee-signup');
+              }}
+              style={{
+                color: '#D4AF37',
+                textDecoration: 'none',
+                fontWeight: '600',
+                transition: 'color 0.2s'
+              }}
+            >
+              Sign Up as Employee
+            </a>
+          </p>
 
         </div>
       </div>
