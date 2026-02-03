@@ -29,9 +29,18 @@ const Login = () => {
     setTimeout(() => {
       setLoading(false);
 
+<<<<<<< Updated upstream
       // Check if shop details are setup (simulated check)
       // In a real app, this would come from the backend user profile
       const isShopSetup = localStorage.getItem('isShopSetupComplete');
+=======
+      // Store role and metadata for sidebar/profile
+      localStorage.setItem('userRole', role);
+      localStorage.setItem('userName', role === 'super_admin' ? 'Sivam Admin' : 'Alex Johnson');
+      localStorage.setItem('userId', role === 'super_admin' ? 'ADM-001' : 'ST-1001');
+      localStorage.setItem('userEmail', role === 'super_admin' ? 'admin@sivamgold.com' : 'alex@sivamgold.com');
+      localStorage.setItem('shopName', role === 'super_admin' ? 'Sivam Gold & Silver' : '');
+>>>>>>> Stashed changes
 
       if (isShopSetup && role === 'super_admin') {
         navigate('/shop-details');

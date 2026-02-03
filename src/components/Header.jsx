@@ -2,6 +2,8 @@ import React from 'react';
 import { Search, Bell, ChevronDown, User, MapPin } from 'lucide-react';
 import { useOrganization } from '../context/OrganizationContext';
 import { useNavigate } from 'react-router-dom';
+import ProfileDropdown from './common/ProfileDropdown';
+
 
 const Header = ({ title }) => {
     const { organization, selectedLocation } = useOrganization();
@@ -67,9 +69,8 @@ const Header = ({ title }) => {
                     <span style={{ position: 'absolute', top: -2, right: -2, width: 8, height: 8, borderRadius: '50%', background: 'var(--color-error)' }} />
                 </button>
 
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--color-primary-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-primary-dark)' }}>
-                    <User size={18} />
-                </div>
+                <ProfileDropdown />
+
 
             </div>
         </header>
