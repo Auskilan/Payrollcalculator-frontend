@@ -5,7 +5,6 @@ import {
     CheckCircle,
     XCircle,
     AlertCircle,
-    Plus,
     Filter,
     Search,
     ChevronLeft,
@@ -13,65 +12,65 @@ import {
     FileText,
     MoreVertical
 } from 'lucide-react';
-import ApplyLeaveModal from './ApplyLeaveModal';
 
 const LeaveDashboard = () => {
     const [activeTab, setActiveTab] = useState('All');
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [leaveRequests, setLeaveRequests] = useState([]);
 
-    // Load from localStorage
-    useEffect(() => {
-        const savedLeaves = localStorage.getItem('leaveRequests');
-        if (savedLeaves) {
-            setLeaveRequests(JSON.parse(savedLeaves));
-        } else {
-            // Initial mock data if empty
-            const initialMock = [
-                {
-                    id: 'L001',
-                    employeeId: 'EMP001',
-                    name: 'Priya Sharma',
-                    role: 'Sales Executive',
-                    type: 'Sick Leave',
-                    fromDate: '2026-01-22',
-                    toDate: '2026-01-23',
-                    days: 2,
-                    reason: 'High fever and viral infection',
-                    status: 'Pending',
-                    appliedOn: '2026-01-20'
-                },
-                {
-                    id: 'L002',
-                    employeeId: 'EMP002',
-                    name: 'Rahul Verma',
-                    role: 'Goldsmith',
-                    type: 'Casual Leave',
-                    fromDate: '2026-02-10',
-                    toDate: '2026-02-12',
-                    days: 3,
-                    reason: 'Family wedding in hometown',
-                    status: 'Approved',
-                    appliedOn: '2026-01-15'
-                },
-                {
-                    id: 'L004',
-                    employeeId: 'EMP003',
-                    name: 'Anjali Gupta',
-                    role: 'Store Manager',
-                    type: 'Sick Leave',
-                    fromDate: '2026-01-18',
-                    toDate: '2026-01-18',
-                    days: 1,
-                    reason: 'Migraine',
-                    status: 'Rejected',
-                    appliedOn: '2026-01-18'
-                }
-            ];
-            localStorage.setItem('leaveRequests', JSON.stringify(initialMock));
-            setLeaveRequests(initialMock);
-        }
-    }, []);
+    // Mock Data
+    const [leaveRequests, setLeaveRequests] = useState([
+        {
+            id: 'L001',
+            employeeId: 'EMP001',
+            name: 'Priya Sharma',
+            role: 'Sales Executive',
+            type: 'Sick Leave',
+            fromDate: '2026-01-22',
+            toDate: '2026-01-23',
+            days: 2,
+            reason: 'High fever and viral infection',
+            status: 'Pending',
+            appliedOn: '2026-01-20'
+        },
+        {
+            id: 'L002',
+            employeeId: 'EMP002',
+            name: 'Rahul Verma',
+            role: 'Goldsmith',
+            type: 'Casual Leave',
+            fromDate: '2026-02-10',
+            toDate: '2026-02-12',
+            days: 3,
+            reason: 'Family wedding in hometown',
+            status: 'Approved',
+            appliedOn: '2026-01-15'
+        },
+        {
+            id: 'L003',
+            employeeId: 'EMP005',
+            name: 'Vikram Singh',
+            role: 'Senior Artisan',
+            type: 'Emergency Leave',
+            fromDate: '2026-01-21',
+            toDate: '2026-01-21',
+            days: 1,
+            reason: 'Medical emergency',
+            status: 'Approved',
+            appliedOn: '2026-01-20'
+        },
+        {
+            id: 'L004',
+            employeeId: 'EMP003',
+            name: 'Anjali Gupta',
+            role: 'Store Manager',
+            type: 'Sick Leave',
+            fromDate: '2026-01-18',
+            toDate: '2026-01-18',
+            days: 1,
+            reason: 'Migraine',
+            status: 'Rejected',
+            appliedOn: '2026-01-18'
+        },
+    ]);
 
     const stats = {
         pending: leaveRequests.filter(r => r.status === 'Pending').length,
@@ -132,6 +131,12 @@ const LeaveDashboard = () => {
         };
     };
 
+    const handleAction = (id, newStatus) => {
+        setLeaveRequests(prev => prev.map(req =>
+            req.id === id ? { ...req, status: newStatus } : req
+        ));
+    };
+
     const filteredRequests = activeTab === 'All'
         ? leaveRequests
         : leaveRequests.filter(req => req.status === activeTab);
@@ -141,32 +146,22 @@ const LeaveDashboard = () => {
 
             {/* Header */}
             <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
                 marginBottom: '2rem'
             }}>
-                <div>
-                    <h1 style={{
-                        fontSize: '2rem',
-                        fontWeight: '700',
-                        marginBottom: '0.5rem',
-                        background: 'linear-gradient(135deg, var(--color-text-main), var(--color-text-muted))',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent'
-                    }}>
-                        Leave Management
-                    </h1>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-text-muted)' }}>
-                        <Calendar size={16} />
-                        <span>Track and manage employee leave requests.</span>
-                    </div>
+                <h1 style={{
+                    fontSize: '2rem',
+                    fontWeight: '700',
+                    marginBottom: '0.5rem',
+                    background: 'linear-gradient(135deg, var(--color-text-main), var(--color-text-muted))',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                }}>
+                    Leave Management
+                </h1>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-text-muted)' }}>
+                    <Calendar size={16} />
+                    <span>Track and manage employee leave requests.</span>
                 </div>
-
-                <button className="stitch-btn stitch-btn-primary" onClick={() => setIsModalOpen(true)}>
-                    <Plus size={18} />
-                    Apply Leave
-                </button>
             </div>
 
             {/* Stats Cards */}
@@ -366,11 +361,7 @@ const LeaveDashboard = () => {
                 Showing {filteredRequests.length} record{filteredRequests.length !== 1 ? 's' : ''}
             </div>
 
-            <ApplyLeaveModal
-                visible={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onApply={handleApplyLeave}
-            />
+
         </div>
     );
 };

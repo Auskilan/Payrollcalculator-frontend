@@ -29,8 +29,12 @@ const Login = () => {
     setTimeout(() => {
       setLoading(false);
 
-      // Store role for sidebar
+      // Store role and metadata for sidebar/profile
       localStorage.setItem('userRole', role);
+      localStorage.setItem('userName', role === 'super_admin' ? 'Sivam Admin' : 'Alex Johnson');
+      localStorage.setItem('userId', role === 'super_admin' ? 'ADM-001' : 'ST-1001');
+      localStorage.setItem('userEmail', role === 'super_admin' ? 'admin@sivamgold.com' : 'alex@sivamgold.com');
+      localStorage.setItem('shopName', role === 'super_admin' ? 'Sivam Gold & Silver' : '');
 
       // Redirect based on setup completion
       if (role === 'super_admin') {

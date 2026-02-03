@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Bell, ChevronDown, User, MapPin } from 'lucide-react';
+import React from 'react';
+import { Bell, ChevronDown, User, MapPin } from 'lucide-react';
 import { useOrganization } from '../context/OrganizationContext';
 import { useNavigate } from 'react-router-dom';
+import ProfileDropdown from './common/ProfileDropdown';
+
 
 const Header = ({ title }) => {
     const { organization, selectedLocation } = useOrganization();
@@ -38,17 +40,6 @@ const Header = ({ title }) => {
             </div>
 
             <div className="flex-center" style={{ gap: '1.5rem' }}>
-
-                {/* Search */}
-                <div style={{ position: 'relative' }}>
-                    <Search size={18} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }} />
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        className="stitch-input"
-                        style={{ paddingLeft: '2.5rem', paddingTop: '0.5rem', paddingBottom: '0.5rem', width: '240px' }}
-                    />
-                </div>
 
                 {/* Organization/Location Selector */}
                 {localStorage.getItem('userRole') === 'super_admin' && (
@@ -87,9 +78,8 @@ const Header = ({ title }) => {
                     )}
                 </button>
 
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--color-primary-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-primary-dark)' }}>
-                    <User size={18} />
-                </div>
+                <ProfileDropdown />
+
 
             </div>
         </header>
