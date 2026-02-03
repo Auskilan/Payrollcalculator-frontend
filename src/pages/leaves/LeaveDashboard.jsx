@@ -98,7 +98,6 @@ const LeaveDashboard = () => {
         const updated = [newLeave, ...leaveRequests];
         localStorage.setItem('leaveRequests', JSON.stringify(updated));
         setLeaveRequests(updated);
-        setIsModalOpen(false);
     };
 
     const getStatusColor = (status) => {
@@ -129,12 +128,6 @@ const LeaveDashboard = () => {
             alignItems: 'center',
             gap: '0.25rem'
         };
-    };
-
-    const handleAction = (id, newStatus) => {
-        setLeaveRequests(prev => prev.map(req =>
-            req.id === id ? { ...req, status: newStatus } : req
-        ));
     };
 
     const filteredRequests = activeTab === 'All'
