@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Bell, ChevronDown, User, MapPin } from 'lucide-react';
 import { useOrganization } from '../context/OrganizationContext';
 import { useNavigate } from 'react-router-dom';
