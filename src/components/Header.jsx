@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Bell, ChevronDown, User, MapPin } from 'lucide-react';
+import { Bell, ChevronDown, User, MapPin } from 'lucide-react';
 import { useOrganization } from '../context/OrganizationContext';
 import { useNavigate } from 'react-router-dom';
 import ProfileDropdown from './common/ProfileDropdown';
@@ -27,17 +27,6 @@ const Header = ({ title }) => {
             </div>
 
             <div className="flex-center" style={{ gap: '1.5rem' }}>
-
-                {/* Search */}
-                <div style={{ position: 'relative' }}>
-                    <Search size={18} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }} />
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        className="stitch-input"
-                        style={{ paddingLeft: '2.5rem', paddingTop: '0.5rem', paddingBottom: '0.5rem', width: '240px' }}
-                    />
-                </div>
 
                 {/* Organization/Location Selector */}
                 <div

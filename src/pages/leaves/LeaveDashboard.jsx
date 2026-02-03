@@ -5,7 +5,6 @@ import {
     CheckCircle,
     XCircle,
     AlertCircle,
-    Plus,
     Filter,
     Search,
     ChevronLeft,
@@ -13,11 +12,9 @@ import {
     FileText,
     MoreVertical
 } from 'lucide-react';
-import ApplyLeaveModal from './ApplyLeaveModal';
 
 const LeaveDashboard = () => {
     const [activeTab, setActiveTab] = useState('All');
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Mock Data
     const [leaveRequests, setLeaveRequests] = useState([
@@ -125,11 +122,6 @@ const LeaveDashboard = () => {
         ));
     };
 
-    const handleApplyLeave = (newLeave) => {
-        setLeaveRequests([newLeave, ...leaveRequests]);
-        setIsModalOpen(false);
-    };
-
     const filteredRequests = activeTab === 'All'
         ? leaveRequests
         : leaveRequests.filter(req => req.status === activeTab);
@@ -139,32 +131,22 @@ const LeaveDashboard = () => {
 
             {/* Header */}
             <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
                 marginBottom: '2rem'
             }}>
-                <div>
-                    <h1 style={{
-                        fontSize: '2rem',
-                        fontWeight: '700',
-                        marginBottom: '0.5rem',
-                        background: 'linear-gradient(135deg, var(--color-text-main), var(--color-text-muted))',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent'
-                    }}>
-                        Leave Management
-                    </h1>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-text-muted)' }}>
-                        <Calendar size={16} />
-                        <span>Track and manage employee leave requests.</span>
-                    </div>
+                <h1 style={{
+                    fontSize: '2rem',
+                    fontWeight: '700',
+                    marginBottom: '0.5rem',
+                    background: 'linear-gradient(135deg, var(--color-text-main), var(--color-text-muted))',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                }}>
+                    Leave Management
+                </h1>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-text-muted)' }}>
+                    <Calendar size={16} />
+                    <span>Track and manage employee leave requests.</span>
                 </div>
-
-                <button className="stitch-btn stitch-btn-primary" onClick={() => setIsModalOpen(true)}>
-                    <Plus size={18} />
-                    Apply Leave
-                </button>
             </div>
 
             {/* Stats Cards */}
@@ -364,11 +346,7 @@ const LeaveDashboard = () => {
                 Showing {filteredRequests.length} record{filteredRequests.length !== 1 ? 's' : ''}
             </div>
 
-            <ApplyLeaveModal
-                visible={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onApply={handleApplyLeave}
-            />
+
         </div>
     );
 };
