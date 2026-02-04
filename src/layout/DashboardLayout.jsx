@@ -5,7 +5,21 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 const DashboardLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const location = useLocation();
+
+    // Handle Window Resize
+    React.useEffect(() => {
+        const handleResize = () => {
+            const mobile = window.innerWidth <= 768;
+            setIsMobile(mobile);
+            if (mobile) setSidebarOpen(false);
+            else setSidebarOpen(true);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Extract title from path
     const getTitle = () => {
@@ -15,18 +29,37 @@ const DashboardLayout = () => {
 
     return (
         <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--color-bg)' }}>
-            <Sidebar isOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+            {/* Mobile Overlay */}
+            {isMobile && sidebarOpen && (
+                <div
+                    onClick={() => setSidebarOpen(false)}
+                    style={{
+                        position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 45
+                    }}
+                />
+            )}
+
+            <Sidebar
+                isOpen={sidebarOpen}
+                toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+                isMobile={isMobile}
+            />
 
             <main style={{
                 flex: 1,
-                marginLeft: sidebarOpen ? 'var(--sidebar-width)' : '80px',
+                marginLeft: isMobile ? '0' : (sidebarOpen ? 'var(--sidebar-width)' : '80px'),
                 transition: 'margin-left 0.3s ease',
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                width: '100%'
             }}>
-                <Header title={getTitle()} />
+                <Header
+                    title={getTitle()}
+                    toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+                    isMobile={isMobile}
+                />
 
-                <div style={{ flex: 1, padding: '2rem', overflowY: 'auto' }}>
+                <div style={{ flex: 1, padding: isMobile ? '1rem' : '2rem', overflowY: 'auto' }}>
                     <Outlet />
                 </div>
             </main>

@@ -6,11 +6,13 @@ import {
     Lock,
     Download,
     Eye,
-    CheckCircle
+    CheckCircle,
+    Search
 } from 'lucide-react';
 
 const PayrollDashboard = () => {
     const [month, setMonth] = useState('October 2023');
+    const [searchQuery, setSearchQuery] = useState('');
 
     // Mock Payroll Data
     const payrollData = [
@@ -46,6 +48,10 @@ const PayrollDashboard = () => {
         }
     ];
 
+    const filteredPayroll = payrollData.filter(item =>
+        item.employee.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     const getStatusBadge = (status) => {
         switch (status) {
             case 'Approved':
@@ -76,7 +82,9 @@ const PayrollDashboard = () => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                marginBottom: '2rem'
+                marginBottom: '2rem',
+                flexWrap: 'wrap',
+                gap: '1rem'
             }}>
                 <div>
                     <h1 style={{
@@ -94,7 +102,37 @@ const PayrollDashboard = () => {
                     </p>
                 </div>
 
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                    {/* Search Bar */}
+                    <div style={{
+                        padding: '8px 12px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        background: '#fff',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '12px',
+                        width: '300px',
+                        maxWidth: '100%'
+                    }}>
+                        <Search size={20} color="#94a3b8" />
+                        <input
+                            type="text"
+                            placeholder="Search employees..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            style={{
+                                border: 'none',
+                                background: 'transparent',
+                                outline: 'none',
+                                fontSize: '0.95rem',
+                                color: 'var(--color-text-main)',
+                                width: '100%',
+                                fontWeight: '500'
+                            }}
+                        />
+                    </div>
+
                     <select className="stitch-input" value={month} onChange={(e) => setMonth(e.target.value)} style={{ width: '180px' }}>
                         <option>September 2023</option>
                         <option>October 2023</option>
@@ -134,8 +172,8 @@ const PayrollDashboard = () => {
             </div>
 
             {/* Payroll Table */}
-            <div className="stitch-card" style={{ padding: '0', overflow: 'hidden' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+            <div className="stitch-card" style={{ padding: '0', overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '800px' }}>
                     <thead style={{ background: 'var(--color-surface-hover)', borderBottom: '1px solid var(--color-border)' }}>
                         <tr>
                             <th style={{ padding: '1rem', fontWeight: '600', color: 'var(--color-text-muted)' }}>Employee</th>
@@ -149,7 +187,7 @@ const PayrollDashboard = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {payrollData.map((item) => (
+                        {filteredPayroll.map((item) => (
                             <tr key={item.id} style={{ borderBottom: '1px solid var(--color-border)' }}>
                                 <td style={{ padding: '1rem', fontWeight: '500' }}>{item.employee}</td>
                                 <td style={{ padding: '1rem' }}>{getStatusBadge(item.status)}</td>
