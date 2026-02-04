@@ -9,7 +9,8 @@ import {
     ChevronLeft,
     ChevronRight,
     Edit2,
-    Zap
+    Zap,
+    Search
 } from 'lucide-react';
 import EditAttendanceModal from './EditAttendanceModal';
 
@@ -18,6 +19,7 @@ const AttendanceDashboard = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRecord, setSelectedRecord] = useState(null);
     const [viewMode, setViewMode] = useState('day'); // 'day', 'week', 'month'
+    const [searchQuery, setSearchQuery] = useState('');
 
     // Mock Attendance Data
     const [attendanceData, setAttendanceData] = useState([
@@ -185,15 +187,22 @@ const AttendanceDashboard = () => {
         };
     };
 
+    const filteredData = attendanceData.filter(record =>
+        record.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        record.role.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
-        <div style={{ padding: '2rem', maxWidth: '1600px', margin: '0 auto' }}>
+        <div style={{ padding: '2rem', maxWidth: '1600px', margin: '0 auto', paddingBottom: '4rem' }}>
 
             {/* Header Section */}
             <div style={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                marginBottom: '2rem'
+                marginBottom: '2rem',
+                flexWrap: 'wrap',
+                gap: '1rem'
             }}>
                 <div>
                     <h1 style={{
@@ -206,13 +215,43 @@ const AttendanceDashboard = () => {
                     }}>
                         {getDashboardTitle()}
                     </h1>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-text-muted)' }}>
+                    {/* <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-text-muted)' }}>
                         <Calendar size={16} />
                         <span>Manage pupil attendance, track late comers and absentees.</span>
-                    </div>
+                    </div> */}
                 </div>
 
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                    {/* Search Bar */}
+                    <div style={{
+                        padding: '8px 12px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        background: '#fff',
+                        border: '1px solid #e2e8f0', // Light border
+                        borderRadius: '12px', // Slightly more rounded
+                        width: '300px', // Initial width, adjust as needed
+                        maxWidth: '100%'
+                    }}>
+                        <Search size={20} color="#94a3b8" /> {/* Lighter gray for icon */}
+                        <input
+                            type="text"
+                            placeholder="Search employees..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            style={{
+                                border: 'none',
+                                background: 'transparent',
+                                outline: 'none',
+                                fontSize: '0.95rem',
+                                color: 'var(--color-text-main)',
+                                width: '100%',
+                                fontWeight: '500'
+                            }}
+                        />
+                    </div>
+
                     {/* View Switcher CTA */}
                     <div className="stitch-card" style={{
                         padding: '4px',
@@ -361,8 +400,8 @@ const AttendanceDashboard = () => {
             </div>
 
             {/* Attendance Table */}
-            <div className="stitch-card" style={{ padding: '0', overflow: 'hidden' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+            <div className="stitch-card" style={{ padding: '0', overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '800px' }}>
                     <thead style={{ background: 'var(--color-surface-hover)', borderBottom: '1px solid var(--color-border)' }}>
                         <tr>
                             <th style={{ padding: '1rem', fontWeight: '600', color: 'var(--color-text-muted)' }}>Employee</th>
@@ -376,7 +415,7 @@ const AttendanceDashboard = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {attendanceData.map((record) => (
+                        {filteredData.map((record) => (
                             <tr key={record.id} style={{ borderBottom: '1px solid var(--color-border)' }}>
                                 <td style={{ padding: '1rem' }}>
                                     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -422,7 +461,7 @@ const AttendanceDashboard = () => {
             </div>
 
             <div style={{ padding: '1rem', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>
-                Showing {attendanceData.length} of 25 records
+                Showing {filteredData.length} of {attendanceData.length} records
             </div>
 
             <EditAttendanceModal

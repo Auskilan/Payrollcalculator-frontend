@@ -14,7 +14,7 @@ import {
     ChevronLeft
 } from 'lucide-react';
 
-const Sidebar = ({ isOpen, toggleSidebar }) => {
+const Sidebar = ({ isOpen, toggleSidebar, isMobile }) => {
     const navigate = useNavigate();
 
     // In a real app, this would come from an auth context
@@ -46,7 +46,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
     return (
         <aside style={{
-            width: isOpen ? 'var(--sidebar-width)' : '80px',
+            width: isMobile ? (isOpen ? 'var(--sidebar-width)' : '0px') : (isOpen ? 'var(--sidebar-width)' : '80px'),
             height: '100vh',
             background: 'var(--color-surface)',
             borderRight: '1px solid var(--color-border)',
@@ -56,7 +56,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             position: 'fixed',
             left: 0,
             top: 0,
-            zIndex: 50
+            zIndex: 50,
+            overflow: 'hidden', // Ensure content hides when closed
+            whiteSpace: 'nowrap'
         }}>
             {/* Brand */}
             <div style={{
