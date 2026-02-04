@@ -58,7 +58,7 @@ const Leaves = () => {
             const newRequest = {
                 id: 'L' + Date.now(),
                 employeeId: 'EMP-ALEX', // Simulated current user
-                name: 'Alex Johnson',
+                name: 'Vijay',
                 role: 'Senior Goldsmith',
                 type: formData.type,
                 fromDate: formData.startDate,
