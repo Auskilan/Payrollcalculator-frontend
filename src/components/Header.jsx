@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Bell, ChevronDown, User, MapPin } from 'lucide-react';
+import { Bell, ChevronDown, User, MapPin, Menu } from 'lucide-react';
 import { useOrganization } from '../context/OrganizationContext';
 import { useNavigate } from 'react-router-dom';
 import ProfileDropdown from './common/ProfileDropdown';
 
 
-const Header = ({ title }) => {
+const Header = ({ title, toggleSidebar, isMobile }) => {
     const { organization, selectedLocation } = useOrganization();
     const navigate = useNavigate();
     const [hasNotifications, setHasNotifications] = useState(false);
@@ -30,12 +30,20 @@ const Header = ({ title }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '0 2rem',
+            padding: isMobile ? '0 1rem' : '0 2rem',
             position: 'sticky',
             top: 0,
             zIndex: 40
         }}>
-            <div className="flex-center">
+            <div className="flex-center" style={{ gap: '0.75rem' }}>
+                {isMobile && (
+                    <button
+                        onClick={toggleSidebar}
+                        style={{ border: 'none', background: 'transparent', padding: '0.5rem', display: 'flex' }}
+                    >
+                        <Menu size={24} color="var(--color-text-main)" />
+                    </button>
+                )}
                 <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--color-text-main)' }}>{title}</h2>
             </div>
 
