@@ -72,6 +72,8 @@ const LeaveDashboard = () => {
         },
     ]);
 
+    const [searchQuery, setSearchQuery] = useState('');
+
     const stats = {
         pending: leaveRequests.filter(r => r.status === 'Pending').length,
         approved: leaveRequests.filter(r => r.status === 'Approved').length,
@@ -130,30 +132,70 @@ const LeaveDashboard = () => {
         };
     };
 
-    const filteredRequests = activeTab === 'All'
-        ? leaveRequests
-        : leaveRequests.filter(req => req.status === activeTab);
+    const filteredRequests = leaveRequests.filter(req => {
+        const matchesTab = activeTab === 'All' || req.status === activeTab;
+        const matchesSearch = req.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            req.role.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesTab && matchesSearch;
+    });
 
     return (
         <div style={{ padding: '2rem', maxWidth: '1600px', margin: '0 auto' }}>
 
             {/* Header */}
             <div style={{
-                marginBottom: '2rem'
+                marginBottom: '2rem',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '1rem'
             }}>
-                <h1 style={{
-                    fontSize: '2rem',
-                    fontWeight: '700',
-                    marginBottom: '0.5rem',
-                    background: 'linear-gradient(135deg, var(--color-text-main), var(--color-text-muted))',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent'
+                <div>
+                    <h1 style={{
+                        fontSize: '2rem',
+                        fontWeight: '700',
+                        marginBottom: '0.5rem',
+                        background: 'linear-gradient(135deg, var(--color-text-main), var(--color-text-muted))',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent'
+                    }}>
+                        Leave Management
+                    </h1>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-text-muted)' }}>
+                        <Calendar size={16} />
+                        <span>Track and manage employee leave requests.</span>
+                    </div>
+                </div>
+
+                {/* Search Bar */}
+                <div style={{
+                    padding: '8px 12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    background: '#fff',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '12px',
+                    width: '300px',
+                    maxWidth: '100%'
                 }}>
-                    Leave Management
-                </h1>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-text-muted)' }}>
-                    <Calendar size={16} />
-                    <span>Track and manage employee leave requests.</span>
+                    <Search size={20} color="#94a3b8" />
+                    <input
+                        type="text"
+                        placeholder="Search employees..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        style={{
+                            border: 'none',
+                            background: 'transparent',
+                            outline: 'none',
+                            fontSize: '0.95rem',
+                            color: 'var(--color-text-main)',
+                            width: '100%',
+                            fontWeight: '500'
+                        }}
+                    />
                 </div>
             </div>
 
@@ -254,8 +296,8 @@ const LeaveDashboard = () => {
             </div>
 
             {/* Leave Table */}
-            <div className="stitch-card" style={{ padding: '0', overflow: 'hidden' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+            <div className="stitch-card" style={{ padding: '0', overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '800px' }}>
                     <thead style={{ background: 'var(--color-surface-hover)', borderBottom: '1px solid var(--color-border)' }}>
                         <tr>
                             <th style={{ padding: '1rem', fontWeight: '600', color: 'var(--color-text-muted)' }}>Employee</th>
